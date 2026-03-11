@@ -60,6 +60,7 @@ html,body{height:100%;font-family:'DM Sans',system-ui,sans-serif;background:#f0f
 .slots{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;}
 .slot-chip{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:9px;border:1px solid rgba(37,99,235,.2);background:#edf3ff;cursor:pointer;transition:all .15s;}
 .slot-chip:hover{background:#dbeafe;border-color:rgba(37,99,235,.5);box-shadow:0 2px 10px rgba(37,99,235,.14);}
+.slot-chip.active{background:linear-gradient(135deg,#dbeafe,#eff6ff);border-color:rgba(37,99,235,.58);box-shadow:0 4px 14px rgba(37,99,235,.18);}
 .sc-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
 .sc-body{flex:1;min-width:0;}
 .sc-label{font-size:12px;font-weight:600;color:#1d4ed8;display:block;margin-bottom:1px;}
@@ -153,6 +154,63 @@ textarea#q:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.1);}
 .sig-row a{color:#93c5fd;text-decoration:none;}
 .sig-note{font-size:9px;color:#cbd5e1;margin-top:1px;opacity:.88;}
 
+/* ── POST-HOC ENGINE ── */
+.phe{background:#fff;border-top:2px solid rgba(37,99,235,.12);padding:24px 32px 28px;}
+.phe-inner{max-width:1100px;margin:0 auto;}
+.phe-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;}
+.phe-title{font-size:15px;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:10px;}
+.phe-badge{font-size:9px;padding:2px 8px;border-radius:999px;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.22);color:#1d4ed8;font-family:'DM Mono',monospace;letter-spacing:.08em;}
+.phe-sub{font-size:11px;color:#64748b;margin-top:2px;}
+.phe-run-btn{padding:7px 18px;border-radius:8px;border:none;background:linear-gradient(135deg,#2563eb,#0ea5e9);color:#fff;font-size:11px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;box-shadow:0 4px 14px rgba(37,99,235,.3);transition:transform .15s,box-shadow .15s;}
+.phe-run-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.45);}
+.phe-tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap;}
+.phe-tab{padding:5px 13px;border-radius:7px;border:1.5px solid rgba(148,163,184,.3);background:#f8faff;font-size:10px;font-weight:600;color:#64748b;cursor:pointer;font-family:'DM Mono',monospace;transition:all .15s;white-space:nowrap;}
+.phe-tab:hover{border-color:#2563eb;color:#1d4ed8;background:rgba(37,99,235,.05);}
+.phe-tab.active{background:#2563eb;border-color:#2563eb;color:#fff;box-shadow:0 3px 10px rgba(37,99,235,.35);}
+.phe-content{display:none;}
+.phe-content.show{display:block;}
+.phe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-bottom:14px;}
+.phe-card{border-radius:10px;border:1px solid rgba(148,163,184,.22);background:#f8faff;padding:12px 14px;}
+.phe-card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.phe-card-title{font-size:11px;font-weight:700;color:#0f172a;}
+.phe-card-tag{font-size:8px;padding:1px 5px;border-radius:999px;border:1px solid rgba(148,163,184,.3);color:#94a3b8;font-family:'DM Mono',monospace;}
+.phe-metric{display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(148,163,184,.1);font-size:10px;color:#475569;}
+.phe-metric:last-child{border-bottom:none;}
+.phe-metric-val{font-family:'DM Mono',monospace;font-size:10px;font-weight:600;}
+.phe-metric-val.good{color:#16a34a;}
+.phe-metric-val.warn{color:#d97706;}
+.phe-metric-val.bad{color:#dc2626;}
+.phe-bar-wrap{margin-top:6px;}
+.phe-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:9px;color:#64748b;}
+.phe-bar-label{width:80px;flex-shrink:0;text-align:right;}
+.phe-bar-track{flex:1;height:6px;border-radius:999px;background:rgba(148,163,184,.18);overflow:hidden;}
+.phe-bar-fill{height:100%;border-radius:999px;transition:width .6s ease;}
+.phe-bar-fill.blue{background:linear-gradient(90deg,#3b82f6,#60a5fa);}
+.phe-bar-fill.green{background:linear-gradient(90deg,#22c55e,#4ade80);}
+.phe-bar-fill.amber{background:linear-gradient(90deg,#f59e0b,#fbbf24);}
+.phe-bar-fill.red{background:linear-gradient(90deg,#ef4444,#f87171);}
+.phe-bar-num{width:32px;flex-shrink:0;font-family:'DM Mono',monospace;font-size:9px;color:#475569;}
+.phe-list{display:flex;flex-direction:column;gap:5px;}
+.phe-list-item{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border-radius:8px;border:1px solid rgba(148,163,184,.18);background:#fff;font-size:10px;}
+.phe-list-dot{width:8px;height:8px;border-radius:999px;flex-shrink:0;margin-top:2px;}
+.phe-list-dot.red{background:#ef4444;box-shadow:0 0 5px rgba(239,68,68,.4);}
+.phe-list-dot.amber{background:#f59e0b;box-shadow:0 0 5px rgba(245,158,11,.4);}
+.phe-list-dot.green{background:#22c55e;box-shadow:0 0 5px rgba(34,197,94,.4);}
+.phe-list-body{flex:1;}
+.phe-list-title{font-weight:600;color:#0f172a;margin-bottom:2px;}
+.phe-list-desc{color:#64748b;line-height:1.5;}
+.phe-list-tag{display:inline-block;font-size:8px;padding:1px 5px;border-radius:999px;border:1px solid rgba(148,163,184,.3);color:#94a3b8;font-family:'DM Mono',monospace;margin-top:3px;}
+.phe-patch{background:#0f172a;border-radius:8px;padding:10px 12px;font-family:'DM Mono',monospace;font-size:9px;color:#e2e8f0;line-height:1.7;margin-bottom:8px;border:1px solid rgba(96,165,250,.15);}
+.phe-patch-hd{color:#93c5fd;font-weight:600;margin-bottom:4px;font-size:9px;}
+.phe-patch-line{color:#cbd5e1;}
+.phe-patch-key{color:#7dd3fc;}
+.phe-patch-val{color:#86efac;}
+.phe-patch-cmt{color:#64748b;font-style:italic;}
+.phe-archive{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:9px;border:1px solid rgba(34,197,94,.25);background:rgba(34,197,94,.04);font-size:11px;color:#16a34a;margin-top:12px;}
+.phe-archive-icon{font-size:18px;flex-shrink:0;}
+.phe-archive-body{flex:1;}
+.phe-archive-title{font-weight:600;margin-bottom:1px;}
+.phe-archive-meta{font-size:9px;color:#64748b;font-family:'DM Mono',monospace;}
 /* ── NPS FOOTER ── */
 .nps-footer{background:#fff;border-top:2px solid rgba(37,99,235,.1);padding:20px 32px 80px;}
 .nps-inner{max-width:960px;margin:0 auto;}
@@ -200,7 +258,7 @@ textarea#q:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.1);}
       <div class="hd-sub">
         Advertiser Decision Operating System · 用研 / 渠道归因 / 增长策略 / 决策推演
         &nbsp;·&nbsp;
-        <a href="https://merchant-ops.myrawzm0406.online/" target="https://merchant-ops.myrawzm0406.online/">总览及子模块功能区详情</a>
+        <a href="https://merchant-ops.myrawzm0406.online/" target="_blank" rel="noreferrer">总览及子模块功能区详情</a>
       </div>
     </div>
   </div>
@@ -310,8 +368,73 @@ textarea#q:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.1);}
   </div>
 </div>
 
+<!-- POST-HOC ENGINE -->
+<div class="phe" id="pheSection">
+  <div class="phe-inner">
+    <div class="phe-hd">
+      <div>
+        <div class="phe-title">🔬 后验优化引擎 <span class="phe-badge">POST-HOC · V1.0</span></div>
+        <div class="phe-sub">基于本次 Agent 执行全链路日志，自动完成指标评估 → 差异比对 → 归因 → 策略生成 → 迭代归档</div>
+      </div>
+      <button class="phe-run-btn" id="pheRunBtn">▶ 运行后验分析</button>
+    </div>
+    <div class="phe-tabs">
+      <div class="phe-tab active" data-tab="metrics">① 后验指标评估</div>
+      <div class="phe-tab" data-tab="diff">② 先验—后验差异</div>
+      <div class="phe-tab" data-tab="badcase">③ Bad Case 归因</div>
+      <div class="phe-tab" data-tab="strategy">④ 优化策略生成</div>
+      <div class="phe-tab" data-tab="archive">⑤ 迭代归档</div>
+    </div>
+
+    <!-- ① 后验指标评估 -->
+    <div class="phe-content show" id="phe-metrics">
+      <div class="phe-grid">
+        <div class="phe-card">
+          <div class="phe-card-hd"><div class="phe-card-title">业务效果指标</div><span class="phe-card-tag">BUSINESS</span></div>
+          <div class="phe-metric"><span>CTR 点击率</span><span class="phe-metric-val warn" id="mCTR">—</span></div>
+          <div class="phe-metric"><span>CVR 转化率</span><span class="phe-metric-val warn" id="mCVR">—</span></div>
+          <div class="phe-metric"><span>CPA 获客成本</span><span class="phe-metric-val warn" id="mCPA">—</span></div>
+          <div class="phe-metric"><span>ROAS 广告回报</span><span class="phe-metric-val warn" id="mROAS">—</span></div>
+          <div class="phe-metric"><span>消耗偏差</span><span class="phe-metric-val warn" id="mDev">—</span></div>
+        </div>
+        <div class="phe-card">
+          <div class="phe-card-hd"><div class="phe-card-title">工具调用指标</div><span class="phe-card-tag">TOOLS</span></div>
+          <div class="phe-bar-wrap" id="toolMetricBars"></div>
+        </div>
+        <div class="phe-card">
+          <div class="phe-card-hd"><div class="phe-card-title">流程稳定性指标</div><span class="phe-card-tag">PROCESS</span></div>
+          <div class="phe-metric"><span>执行步骤完整性</span><span class="phe-metric-val good" id="mStep">—</span></div>
+          <div class="phe-metric"><span>异常重试次数</span><span class="phe-metric-val good" id="mRetry">—</span></div>
+          <div class="phe-metric"><span>人工介入率</span><span class="phe-metric-val good" id="mHuman">—</span></div>
+          <div class="phe-metric"><span>平均响应延迟</span><span class="phe-metric-val good" id="mLatency">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② 先验—后验差异 -->
+    <div class="phe-content" id="phe-diff">
+      <div class="phe-grid" id="diffGrid"></div>
+    </div>
+
+    <!-- ③ Bad Case 归因 -->
+    <div class="phe-content" id="phe-badcase">
+      <div class="phe-list" id="badcaseList"></div>
+    </div>
+
+    <!-- ④ 优化策略生成 -->
+    <div class="phe-content" id="phe-strategy">
+      <div id="strategyArea"></div>
+    </div>
+
+    <!-- ⑤ 迭代归档 -->
+    <div class="phe-content" id="phe-archive">
+      <div id="archiveArea"></div>
+    </div>
+  </div>
+</div>
+
 <!-- NPS FOOTER -->
-<div class="nps-footer">
+<div class="nps-footer" id="npsSection">
   <div class="nps-inner">
     <div class="nps-title">
       💬 您对本次推演的评价
@@ -362,45 +485,123 @@ textarea#q:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.1);}
 <script>
 (function(){
 
+const state={
+  runId:0,
+  selectedSlot:null,
+  currentType:'custom',
+  lastRun:null,
+  nps:{score:null,dims:{completeness:0,insight:0,toolfit:0,clarity:0},comment:''}
+};
+
 const SLOTS=[
-  {icon:'📉',label:'获客成本高，用户互动差',type:'creative',
+  {id:'creative',icon:'📉',label:'获客成本高，用户互动差',type:'creative',
    q:'A渠道投放获客成本高，整体CTR和互动率很差。帮我分析：这批投放物料是针对什么用户在什么场景的什么需求？利益点和行动按钮是否一致？推广物料与推广目标用户在平台核心利益点是否一致还是错配？'},
-  {icon:'💸',label:'获客成本高，用户留存转化差',type:'funnel',
+  {id:'funnel',icon:'💸',label:'获客成本高，用户留存转化差',type:'funnel',
    q:'平台花钱但不起量，帮我分析：他们在用户旅程的哪个节点流失了？推测根因是什么？这部分用户主要来源什么渠道的什么投放物料，有什么特征？这个渠道的投放策略满足的是什么场景下的用户需求？这批用户是否符合平台核心用户画像？可以在哪些节点设计自动化触达（文案/优惠券/积分权益）'},
-  {icon:'🔄',label:'复购率低，用户生命周期价值低',type:'retention',
+  {id:'retention',icon:'🔄',label:'复购率低，用户生命周期价值低',type:'retention',
    q:'平台复购率低，用户LTV偏低。帮我分析：复购率低主要集中在哪些用户群体？这些用户来自哪个渠道，历史购买哪些商品？浏览访问偏好如何？是否可以推荐互补品？是否是价格敏感型用户？是否适合自动化触达配合券或权益引导转化？'},
-  {icon:'📊',label:'平台整体交易规模疲软',type:'growth',
+  {id:'growth',icon:'📊',label:'平台整体交易规模疲软',type:'growth',
    q:'请你根据当前业务阶段及业务增长方式帮我做一波定性及定量用户调研，定位问题并给出增长策略建议。'},
 ];
 
-const slotEl=document.getElementById('slotChips');
-SLOTS.forEach(s=>{
-  const c=document.createElement('div'); c.className='slot-chip';
-  c.innerHTML=`<span class="sc-icon">${s.icon}</span><div class="sc-body"><span class="sc-label">${s.label}</span><span class="sc-q">${s.q.slice(0,60)}…</span></div>`;
-  c.addEventListener('click',()=>{document.getElementById('q').value=s.q;run(s.type,s.q);});
-  slotEl.appendChild(c);
-});
-
 const OPS=[
-  // ── 用研洞察 ──
-  {id:'sentiment',     name:'舆情监测+竞品分析', short:'舆情监测+竞品分析',      cat:'insight', status:'available', desc:'通过NLP聚类Top内容及评论关键议题，助力产品与GTM策略优化。',    url:'https://global-auto-sentiment.myrawzm0406.online/'},
-  {id:'user_research', name:'定性+定量用研',    short:'定性+定量用研Agent', cat:'insight', status:'available', desc:'通过业务问题诊断→输出定性+定量用研规划',                       url:'https://userinsightagent.pages.dev/'},
-  {id:'smart_service', name:'智能客服',               short:'智能客服',               cat:'insight', status:'available', desc:'智能客服系统，快速响应B端商家咨询与问题解决',                   url:'https://chatbot-customer-service.myrawzm0406.online/'},
-  {id:'voc_dashboard', name:'客诉归因看板',           short:'客诉看板',               cat:'insight', status:'available', desc:'B端客诉归因看板，定位服务痛点与改进优先级',                    url:'https://customer-feedback.myrawzm0406.online/'},
-  // ── 渠道归因 + 搜广推投放（合并）──
-  {id:'psm_did',       name:'渠道来源数据归因',       short:'渠道来源数据归因',       cat:'ops',     status:'available', desc:'分辨各渠道获客成本，评估渠道流量价值',                         url:'https://traffic-attribution.myrawzm0406.online/'},
-  {id:'coupon_ops',    name:'权益自动化触达',         short:'自动化权益触达',         cat:'ops',     status:'available', desc:'生命周期分层，自动编排触达策略',                               url:'https://merchant-ops-copilot.myrawzm0406.online/'},
-  {id:'ads_board',     name:'搜广推白盒化看板',       short:'搜广推链路白盒化',       cat:'ops',     status:'available', desc:'曝光/点击/CVR/ROI全链路白盒化看板',                            url:'https://adx.mirix.myrawzm0406.online/'},
-  {id:'experiment_hub',name:'白盒化实验控制台',       short:'实验控制台',             cat:'ops',     status:'used',      desc:'AB实验管理，护栏监控，分层诊断',                               url:'https://adx-experiment-v2.myrawzm0406.online/'},
-  // ── 增长策略 ──
-  {id:'creative_insight',name:'获客策略及子元素评测集',     short:'获客策略及子元素评测集',       cat:'growth',  status:'available', desc:'宣推策略评测集（Streamlit）',                                  url:'https://matixmirix060202.streamlit.app/'},
-  // ── 决策推演 ──
-  {id:'simulation',    name:'决策推演日志',           short:'决策记录+推演复盘',               cat:'sim',     status:'available', desc:'固化决策证据链为Trace Graph，集中归档复盘结论与Bad Case',     url:'https://matrixmirix-whatif.pages.dev/'},
+  {id:'sentiment',name:'舆情监测+竞品分析',short:'舆情监测+竞品分析',cat:'insight',status:'available',desc:'通过NLP聚类Top内容及评论关键议题，助力产品与GTM策略优化。',url:'https://global-auto-sentiment.myrawzm0406.online/'},
+  {id:'research',name:'定性+定量用研',short:'定性+定量用研Agent',cat:'insight',status:'available',desc:'通过业务问题诊断→输出定性+定量用研规划。',url:'https://userinsightagent.pages.dev/'},
+  {id:'smart_service',name:'智能客服',short:'智能客服',cat:'insight',status:'available',desc:'智能客服系统，快速响应B端商家咨询与问题解决。',url:'https://chatbot-customer-service.myrawzm0406.online/'},
+  {id:'voc_dashboard',name:'客诉归因看板',short:'客诉看板',cat:'insight',status:'available',desc:'B端客诉归因看板，定位服务痛点与改进优先级。',url:'https://customer-feedback.myrawzm0406.online/'},
+  {id:'psm_did',name:'渠道来源数据归因',short:'渠道来源数据归因',cat:'ops',status:'available',desc:'分辨各渠道获客成本，评估渠道流量价值。',url:'https://traffic-attribution.myrawzm0406.online/'},
+  {id:'coupon_ops',name:'权益自动化触达',short:'自动化权益触达',cat:'ops',status:'available',desc:'生命周期分层，自动编排触达策略。',url:'https://merchant-ops-copilot.myrawzm0406.online/'},
+  {id:'ads_board',name:'搜广推白盒化看板',short:'搜广推链路白盒化',cat:'ops',status:'available',desc:'曝光/点击/CVR/ROI全链路白盒化看板。',url:'https://adx.mirix.myrawzm0406.online/'},
+  {id:'experiment_hub',name:'白盒化实验控制台',short:'实验控制台',cat:'ops',status:'used',desc:'AB实验管理，护栏监控，分层诊断。',url:'https://adx-experiment-v2.myrawzm0406.online/'},
+  {id:'journey',name:'流量动线+用户旅程',short:'用户旅程分析',cat:'growth',status:'available',desc:'识别流失节点、动线断点与触达时机。',url:'https://matrixmirix-whatif.pages.dev/'},
+  {id:'hook_cta',name:'获客钩子与CTA评测',short:'Hook/CTA评测',cat:'growth',status:'available',desc:'评估素材钩子、利益点和CTA是否与目标场景匹配。',url:'https://matixmirix060202.streamlit.app/'},
+  {id:'simulation',name:'决策推演日志',short:'决策记录+推演复盘',cat:'sim',status:'available',desc:'固化决策证据链为Trace Graph，集中归档复盘结论与Bad Case。',url:'https://matrixmirix-whatif.pages.dev/'}
 ];
 const CATS={insight:'用研洞察',ops:'数据策略 · 自动化触达',growth:'增长策略',sim:'决策推演'};
 
+const TN={sentiment:'舆情监测+竞品分析',research:'定性+定量用研',psm_did:'渠道获客与数据归因',ads_board:'搜广推白盒化',journey:'用户旅程分析',hook_cta:'Hook/CTA评测',coupon_ops:'权益自动化触达',simulation:'决策推演'};
+
+const TYPES={
+  creative:{label:'投放花费高·素材没动力诊断',tools:['hook_cta','sentiment','ads_board','simulation'],kpi:'CTR/互动率/素材-用户画像匹配度',mode:'宣推创意诊断·Hook+CTA+用户画像'},
+  funnel:{label:'获客成本高·渠道转化诊断',tools:['psm_did','ads_board','journey','coupon_ops'],kpi:'CAC/渠道增量/旅程卡点/触达ROI',mode:'渠道归因·旅程卡点·自动化触达'},
+  retention:{label:'复购率低·用户LTV分析',tools:['research','journey','coupon_ops','simulation'],kpi:'复购率/LTV/协同推荐转化/权益ROI',mode:'用户生命周期·协同过滤·权益分层'},
+  growth:{label:'平台交易疲软·PMF增长诊断',tools:['sentiment','research','psm_did','simulation'],kpi:'GMV增速/PMF信号强度/用研回收率',mode:'业务阶段诊断·PMF·用研推演'},
+  custom:{label:'自定义决策问题',tools:['sentiment','research','psm_did','journey','simulation'],kpi:'目标对齐度/决策可解释性',mode:'多 Agent 协同'}
+};
+
+const STEPS_MAP={
+  creative:[
+    {t:'统一诊断口径：锁定渠道、素材批次、时间窗',d:'确认CTR/互动率统计口径，排除平台算法波动干扰因素。'},
+    {t:'素材场景×用户需求匹配度分析',d:'这批素材切的是娱乐还是需求场景？是否对应目标人群真实购买动机？'},
+    {t:'Hook吸引力+利益点清晰度+CTA准确性评测',d:'钩子是否够吸引？利益点是否前置？CTA行动按钮文案是否与场景一致？'},
+    {t:'来源人群×平台核心用户画像对比',d:'这批素材吸引来的人群是否符合平台主流用户画像？低价值/低意图占比多少？'},
+    {t:'创意优化方向+A/B验证方案',d:'素材迭代优先级：场景切换/利益点前置/CTA文案改版，建议小流量A/B验证。'}
+  ],
+  funnel:[
+    {t:'PSM+DID归因：找到真正高CAC的渠道',d:'剔除自然流量混淆，找真正高CAC渠道，评估各渠道真实增量。'},
+    {t:'该渠道投放策略×用户需求场景分析',d:'投放满足的是什么场景下的用户需求？利益点和行动按钮是否一致？'},
+    {t:'来源用户画像×平台核心用户对比',d:'来的这批用户是否符合平台核心用户画像？差在哪里？价值高不高？'},
+    {t:'旅程卡点定位：用户在哪个节点流失',d:'追踪流失节点：落地页/详情页/加购/支付，定位最大卡点并推测根因。'},
+    {t:'自动化触达方案：卡点节点的分层干预',d:'T+1文案唤醒 / T+3优惠券（价格敏感）/ T+7积分权益。'}
+  ],
+  retention:[
+    {t:'复购率低的商品类目×用户群体定位',d:'哪些商品复购率最低？主要集中在哪类用户（新客/老客/高LTV/低LTV）？'},
+    {t:'追溯来源渠道+历史LTV+偏好分析',d:'这批低复购用户来自哪个渠道？历史LTV如何？历史购买偏好是什么？'},
+    {t:'价格敏感度判断+交叉售卖可行性',d:'是价格敏感型用户吗？能否配合券和权益做交叉售卖？响应率预测。'},
+    {t:'协同过滤推荐方案',d:'基于历史购买行为，生成相邻品类推荐清单，结合积分降低首次交叉购买门槛。'},
+    {t:'按用户价值分层的触达策略',d:'高潜用户→专属权益；价格敏感→满减券；沉默用户→场景化唤醒push。'}
+  ],
+  growth:[
+    {t:'业务阶段判断：0-1/1-10/规模化',d:'判断当前是销售/营销/产品驱动增长？基建和品牌效力现状如何？'},
+    {t:'PMF信号诊断：是否找到核心用户价值满足点',d:'是否跑通PMF？用户真正在乎的核心价值是什么？产品是否准确对齐？'},
+    {t:'定向用研问卷设计',d:'为「下单用户」和「流失用户」分别设计定向问卷素材。'},
+    {t:'问卷回收数据分析+增长假设验证',d:'回收后分析反馈，验证增长假设：核心价值主张是否被认可？阻力在哪？'},
+    {t:'阶段性增长策略推演',d:'收敛核心用户画像，集中资源打透一类人群，输出30日可验证行动计划。'}
+  ],
+  custom:[
+    {t:'意图澄清&口径统一',d:'解析问题并以多Agent协作方式拆解，统一KPI口径。'},
+    {t:'检索历史上下文与数据',d:'查询历史用研结论、投放数据与业务背景。'},
+    {t:'工具编排&子任务路由',d:'为不同子问题匹配合适分析模块。'},
+    {t:'多路径交叉验证',d:'对关键结论做交叉校验，避免单一路径幻觉。'},
+    {t:'聚合结论&决策建议',d:'汇总为可行动、可量化、可追溯的决策建议。'}
+  ]
+};
+
+const REPORTS={'creative': {'cards': [{'title': '素材场景错配诊断', 'tag': 'CREATIVE', 'sum': '核心问题：素材切的是娱乐/猎奇场景，吸引来的人群购买意图低，与平台主流用户需求错配。', 'buls': ['Hook以娱乐属性为主，吸引来的用户无明确购买意图，CTR虚高但转化极低。', '利益点表达不够前置，用户需要看完才能感知到价值，中途流失率高。', 'CTA按钮文案过于通用，缺乏场景化行动驱动力。']}, {'title': '来源人群画像错配', 'tag': 'AUDIENCE', 'sum': '该素材吸引的人群中约40%与平台核心用户画像不符，是低意图、低价值的无效流量。', 'buls': ['低价值流量主要来自内容消费场景，而非商品需求场景。', '这部分用户详情页跳出率高出均值38%，加购率不足均值的1/3。', '建议：调整定向策略，屏蔽纯娱乐兴趣标签，优先覆盖有购买历史的人群。'], 'bars': [{'h': 85, 'l': '娱乐场景'}, {'h': 40, 'l': '需求场景'}, {'h': 30, 'l': '加购意图'}, {'h': 22, 'l': '转化率'}]}, {'title': 'Hook & CTA 优化方向', 'tag': 'COPY', 'sum': '建议将素材从「娱乐钩子」切向「具体使用场景+核心痛点」，利益点前置，CTA场景化。', 'buls': ['Hook改为：「XXX场景下，你是不是也遇到了这个问题？」', '利益点（价格/效果/信任）需在前2秒出现，而非结尾。', 'CTA改为场景化：「立即解决XXX问题」或「现在领取XXX优惠」。']}, {'title': 'A/B验证优先级', 'tag': 'ACTION', 'sum': '建议启动3组A/B实验，分阶段验证素材优化方向，以CTR和加购率为核心指标。', 'buls': ['优先验证：场景切换（娱乐→需求场景）对CTR和转化率的影响。', '次优先：利益点前置 vs 后置，对中段留存率的影响。', '第三：CTA文案场景化改版，对加购率的影响。'], 'scores': ['当前Hook吸引力≈4/10', '利益点清晰度≈5/10', 'CTA场景匹配≈3/10']}]}, 'funnel': {'cards': [{'title': '渠道真实CAC归因', 'tag': 'CAC', 'sum': 'PSM+DID归因显示：A渠道CAC约为均值1.6倍，自然流量混淆严重，真实增量被高估约30%。', 'buls': ['剔除品牌词搜索自然流量后，A渠道真实CAC大幅上升。', '建议切换至增量归因口径，重新评估A渠道的预算分配优先级。', '对比B/C渠道增量ROI，考虑预算向高效渠道转移。']}, {'title': '来源用户与平台画像对比', 'tag': 'AUDIENCE', 'sum': 'A渠道引入的用户中，约35%不符合平台核心用户画像，属于低意图或低价值流量。', 'buls': ['不符画像用户特征：低客单、低频、对主营品类无历史浏览记录。', '这部分用户在详情页跳出率高出均值42%，下单率不足均值的20%。', '建议：A渠道定向策略收窄，优先覆盖符合核心画像的人群。'], 'bars': [{'h': 65, 'l': '画像匹配'}, {'h': 35, 'l': '下单转化'}, {'h': 50, 'l': '7日留存'}, {'h': 25, 'l': '复购率'}]}, {'title': '用户旅程卡点定位', 'tag': 'JOURNEY', 'sum': '主要流失发生在「落地页→详情页」（流失38%）和「加购→支付」（流失31%）两个节点。', 'buls': ['落地页→详情页：信息不连续，用户预期与实际商品不符，信任感未建立。', '加购→支付：支付页缺少紧迫感和信任背书，价格敏感用户犹豫期长。', '优先优化这两个节点，预计可提升整体转化率15-20%。']}, {'title': '自动化触达干预方案', 'tag': 'OPS', 'sum': '在关键流失节点设计3层触达策略，预计可挽回约12-18%的流失用户。', 'buls': ['T+1 push：场景化内容唤醒意图（针对详情页跳出用户）。', 'T+3 短信：限时优惠券刺激（针对加购未支付的价格敏感用户）。', 'T+7 小程序消息：积分兑换权益（针对低频激活用户）。'], 'scores': ['渠道效率评分≈5.5/10', '人群画像匹配≈6/10', '触达挽回潜力≈中高']}]}, 'retention': {'cards': [{'title': '低复购商品×用户群体定位', 'tag': 'SEGMENT', 'sum': '复购率低主要集中在「标品/耗材类」商品，以及来自信息流渠道的新客群体。', 'buls': ['标品类30日复购率仅为均值60%，主因是竞品价格更优、替换成本低。', '信息流新客30日复购率约8%，远低于搜索新客的22%。', '建议对标品类和信息流新客优先设计差异化留存策略。']}, {'title': '历史LTV+偏好+价格敏感度', 'tag': 'LTV', 'sum': '低复购用户中约30%属于价格敏感型，对折扣券响应率约35%，有被激活的潜力。', 'buls': ['偏好以日用品/实用品为主，协同过滤可覆盖相邻品类（如个护→清洁）。', '高LTV用户（top 20%）复购驱动力是「信任+便利」，而非价格。', '建议分层设计：价格敏感型→券；高LTV型→专属权益+优先配送。'], 'bars': [{'h': 30, 'l': '复购率'}, {'h': 55, 'l': '券响应'}, {'h': 48, 'l': '推荐点击'}, {'h': 62, 'l': 'LTV潜力'}]}, {'title': '协同过滤推荐方案', 'tag': 'REC', 'sum': '基于历史购买行为，生成个性化推荐清单，覆盖相邻品类，重点降低交叉购买门槛。', 'buls': ['优先推荐：历史品类的耗材/配件（需求确定性高，复购周期可预测）。', '次优先：协同过滤关联品类（「买了A的人还买了B」）。', '首次交叉购买配合小额积分奖励，降低决策摩擦。']}, {'title': '分层触达权益策略', 'tag': 'OPS', 'sum': '按用户价值分3层设计触达和权益组合，预计提升整体复购率8-12%。', 'buls': ['高潜用户（LTV top30%）：专属会员权益+新品优先体验。', '价格敏感用户：满减券+限时折扣（有效期48h，制造紧迫感）。', '30日沉默用户：场景化push+小额积分奖励（低成本唤醒）。'], 'scores': ['复购提升潜力≈中高', '券ROI预估≈1.8-2.2x', '触达时机敏感度≈高']}]}, 'growth': {'cards': [{'title': '业务阶段诊断', 'tag': 'STAGE', 'sum': '初步判断处于1→10阶段：战略摇摆，PMF信号弱，品牌效力不足，增长主要靠渠道投放驱动。', 'buls': ['0-1特征：基建差，没有品牌效力，靠销售/投放硬怼增长，边际成本持续上升。', '1-10卡点：没有找到核心用户价值满足点，人群宽泛，留存不稳，无法形成口碑增长。', '优先任务：找到核心用户画像+最高价值满足点，收敛策略，再谈放量。']}, {'title': 'PMF信号诊断', 'tag': 'PMF', 'sum': '基于现有数据，PMF在「效率+信任」维度有弱信号，但价格仍是最大摩擦点，核心价值主张不够聚焦。', 'buls': ['高留存用户共同特征：对「省时/效率」和「可信度/安全感」满意度高。', '低留存/流失用户主要原因：价格感知差、竞品替代容易、找不到产品独特价值。', '建议：强化效率和信任的产品表达，降低价格对比摩擦。'], 'bars': [{'h': 72, 'l': '效率满意'}, {'h': 65, 'l': '信任满意'}, {'h': 38, 'l': '价格满意'}, {'h': 45, 'l': '推荐意愿'}]}, {'title': '定向用研问卷设计', 'tag': 'QUAL', 'sum': '建议发起2类定向用研：①下单用户「价值满足度」问卷；②流失用户「离开原因」问卷，各200份，7日回收。', 'buls': ['下单用户问卷重点：最核心决策因素、最大惊喜点、最想改进的一件事。', '流失用户问卷重点：离开的主要原因、选择竞品的核心理由、还缺什么没满足。', '问卷设计原则：单次不超过5题，核心是找「why」而非「what」。']}, {'title': '阶段性增长策略推演', 'tag': 'GROWTH', 'sum': '核心策略：从「渠道驱动」切向「用户价值驱动」，收敛核心人群后集中资源打透，再谈规模化。', 'buls': ['30天目标：通过用研找到NPS>50的核心用户群，优先服务好这部分人。', '策略调整：收窄人群定向，提升渠道画像匹配度，降低无效CAC。', '验证节点：30日后看核心人群留存率、复购率和NPS变化，决定是否放量。'], 'scores': ['PMF信号强度≈弱-中', '增长策略清晰度≈待收敛', '用研优先级≈极高']}]}, 'custom': {'cards': [{'title': '用研洞察·动机×阻力', 'tag': 'INSIGHT', 'sum': '核心痛点集中在效率/心智安全感/价格敏感度三类，不同细分人群主导动机差异明显。', 'buls': ['高价值人群对时间成本和决策不可逆风险高度敏感。', '当前信息架构对关键顾虑回应不够前置，增加了决策摩擦。']}, {'title': '数据诊断·渠道漏斗', 'tag': 'DATA', 'sum': '点击→加购和下单→支付两环节存在明显坍塌，是转化损失的主要来源。', 'buls': ['中段到达→加购流失偏高，价值感与信任感未充分建立。', '末端支付页权益展示存在优化空间，可用A/B验证。'], 'bars': [{'h': 80, 'l': '曝光→点击'}, {'h': 68, 'l': '点击→到达'}, {'h': 45, 'l': '到达→加购'}, {'h': 52, 'l': '加购→支付'}]}, {'title': '旅程卡点·触达策略', 'tag': 'JOURNEY', 'sum': '「首次到达详情页」与「首次搜索品牌名」是两个高敏感度拐点。', 'buls': ['落地页→详情页信息不连续是主要流失原因。', '复购触达建议：按生命周期分层推送push/短信/积分权益。']}, {'title': '决策建议·可验证方案', 'tag': 'DECISION', 'sum': '建议A/B实验将创意/页面/权益方案拆开验证，优先在GMV影响最大的卡点小步快跑。', 'buls': ['详情页首屏改版与结算页权益重排可先行验证。', '本轮结论沉淀为指标口径+模板+Bad Case。'], 'scores': ['洞察解释力≈8.5/10', '可执行度≈8.0/10', '风险可控≈7.5/10']}]}};
+
+function $(id){return document.getElementById(id);}
+function escapeHtml(str){return String(str||'').replace(/[&<>"]/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s]));}
+function detectType(text){
+  const q=(text||'').toLowerCase();
+  if(!q.trim()) return state.selectedSlot||'custom';
+  if((/ctr|互动|素材|创意|钩子|cta|物料/.test(q)) && (/获客成本|花费高|投放贵|cac/.test(q))) return 'creative';
+  if(/流失|旅程|加购|支付|转化|不起量|触达|优惠券|权益/.test(q)) return 'funnel';
+  if(/复购|ltv|生命周期|留存|互补品|价格敏感/.test(q)) return 'retention';
+  if(/业务阶段|增长|pmf|交易规模|用研|调研/.test(q)) return 'growth';
+  return state.selectedSlot||'custom';
+}
+function slotSnippet(text){return text.length>60?text.slice(0,60)+'…':text;}
+function renderSlots(){
+  const slotEl=$('slotChips');
+  slotEl.innerHTML='';
+  SLOTS.forEach(s=>{
+    const c=document.createElement('div');
+    c.className='slot-chip'+(state.selectedSlot===s.type?' active':'');
+    c.innerHTML=`<span class="sc-icon">${s.icon}</span><div class="sc-body"><span class="sc-label">${s.label}</span><span class="sc-q">${escapeHtml(slotSnippet(s.q))}</span></div>`;
+    c.addEventListener('click',()=>{
+      state.selectedSlot=s.type;
+      state.currentType=s.type;
+      $('q').value=s.q;
+      $('ipMain').textContent='已加载预设槽位：'+s.label;
+      $('ipMeta').textContent='点击右侧「模拟推演」开始执行，或继续改写问题。';
+      renderSlots();
+    });
+    slotEl.appendChild(c);
+  });
+}
+
 function renderOps(){
-  const c=document.getElementById('opsContainer'); c.innerHTML='';
+  const c=$('opsContainer'); c.innerHTML='';
   ['insight','ops','growth','sim'].forEach(cat=>{
     const items=OPS.filter(l=>l.cat===cat); if(!items.length) return;
     const g=document.createElement('div'); g.className='ops-group';
@@ -410,205 +611,210 @@ function renderOps(){
       const card=document.createElement('div');
       card.className='oc '+(l.status==='used'?'used':l.status==='forbidden'?'forbidden':'');
       card.title=l.desc;
-      card.innerHTML=`<div class="oc-top"><div class="oc-name">${l.short}</div><div class="oc-st">${l.status==='available'?'可用':l.status==='used'?'已用':'禁'}</div></div><div class="oc-desc">${l.desc}</div>`;
-      if(l.status!=='forbidden') card.addEventListener('click',()=>{if(!confirm('跳转至：'+l.name+'?')) return; window.open(l.url,'_blank','noopener'); l.status='used'; renderOps(); setTool(l.id,'done');});
+      card.innerHTML=`<div class="oc-top"><div class="oc-name">${escapeHtml(l.short)}</div><div class="oc-st">${l.status==='available'?'可用':l.status==='used'?'已用':'禁'}</div></div><div class="oc-desc">${escapeHtml(l.desc)}</div>`;
+      if(l.status!=='forbidden') card.addEventListener('click',()=>{window.open(l.url,'_blank','noopener'); l.status='used'; renderOps(); setTool(l.id,'done');});
       grid.appendChild(card);
     });
     g.appendChild(grid); c.appendChild(g);
   });
 }
 
-const TN={sentiment:'舆情监测+竞品分析',research:'定性+定量用研',psm_did:'渠道获客与数据归因',ads_board:'搜广推白盒化',journey:'用户旅程桑基',hook_cta:'创意Hook/CTA',coupon_ops:'权益自动化触达',simulation:'决策推演'};
 function setTool(id,st){const el=document.querySelector(`.tc[data-id="${id}"]`);if(!el)return;el.classList.remove('active','done');if(st)el.classList.add(st);}
 function resetTools(){document.querySelectorAll('.tc').forEach(el=>el.classList.remove('active','done'));}
-function setPipe(n){for(let i=1;i<=4;i++){const el=document.getElementById('ps'+i);el.classList.remove('active','done');if(i<n)el.classList.add('done');else if(i===n)el.classList.add('active');}}
-function clearPipe(){for(let i=1;i<=4;i++)document.getElementById('ps'+i).classList.remove('active','done');}
+function setPipe(n){for(let i=1;i<=4;i++){const el=$('ps'+i);el.classList.remove('active','done');if(i<n)el.classList.add('done');else if(i===n)el.classList.add('active');}}
+function clearPipe(){for(let i=1;i<=4;i++)$('ps'+i).classList.remove('active','done');}
 
-const logEl=document.getElementById('logEl');
-function addLog(kind,msg){const d=new Date(),t=[d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>n<10?'0'+n:n).join(':');const line=document.createElement('div');line.className='ll';line.innerHTML=`<span class="lt">[${t}]</span><span class="ltag l${kind}">${kind.toUpperCase()}</span>${msg}`;logEl.appendChild(line);logEl.scrollTop=logEl.scrollHeight;}
+const logEl=$('logEl');
+function addLog(kind,msg){const d=new Date(),t=[d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>n<10?'0'+n:n).join(':');const line=document.createElement('div');line.className='ll';line.innerHTML=`<span class="lt">[${t}]</span><span class="ltag l${kind}">${kind.toUpperCase()}</span>${escapeHtml(msg)}`;logEl.appendChild(line);logEl.scrollTop=logEl.scrollHeight;}
 
-const stepsEl=document.getElementById('stepsArea');
-function renderSteps(steps){stepsEl.innerHTML='';steps.forEach((s,i)=>{const r=document.createElement('div');r.className='sr';r.dataset.i=i;r.innerHTML=`<div class="sn">${i+1}</div><div class="sc2"><div class="st2">${s.t}</div><div class="sd">${s.d}</div></div>`;stepsEl.appendChild(r);});}
-function setStep(i,state){const el=stepsEl.querySelector(`[data-i="${i}"]`);if(!el)return;el.classList.remove('cur','done');if(state)el.classList.add(state==='current'?'cur':'done');}
+const stepsEl=$('stepsArea');
+function renderSteps(steps){stepsEl.innerHTML='';steps.forEach((s,i)=>{const r=document.createElement('div');r.className='sr';r.dataset.i=i;r.innerHTML=`<div class="sn">${i+1}</div><div class="sc2"><div class="st2">${escapeHtml(s.t)}</div><div class="sd">${escapeHtml(s.d)}</div></div>`;stepsEl.appendChild(r);});}
+function setStep(i,stateName){const el=stepsEl.querySelector(`[data-i="${i}"]`);if(!el)return;el.classList.remove('cur','done');if(stateName)el.classList.add(stateName==='current'?'cur':'done');}
+function sched(fn,ms,rid){setTimeout(()=>{if(rid===state.runId) fn();},ms);}
 
-let runId=0;
-function sched(fn,ms,rid){setTimeout(()=>{if(rid===runId)fn();},ms);}
-
-const TYPES={
-  creative:  {label:'投放花费高·素材没动力诊断',  tools:['sentiment','ads_board','hook_cta','aigc_eval'],        kpi:'CTR/互动率/素材-用户画像匹配度',mode:'宣推创意诊断·Hook+CTA+用户画像'},
-  funnel:    {label:'获客成本高·渠道转化诊断',     tools:['psm_did','ads_board','journey','coupon_ops'],          kpi:'CAC/渠道增量/旅程卡点/触达ROI',  mode:'渠道归因·旅程卡点·自动化触达'},
-  retention: {label:'复购率低·用户LTV分析',        tools:['research','journey','coupon_ops','simulation'],        kpi:'复购率/LTV/协同推荐转化/权益ROI',mode:'用户生命周期·协同过滤·权益分层'},
-  growth:    {label:'平台交易疲软·PMF增长诊断',    tools:['sentiment','research','psm_did','simulation'],         kpi:'GMV增速/PMF信号强度/用研回收率', mode:'业务阶段诊断·PMF·用研推演'},
-  custom:    {label:'自定义决策问题',               tools:['sentiment','research','psm_did','journey','simulation'],kpi:'目标对齐度/决策可解释性',        mode:'多 Agent 协同'},
-};
-
-const STEPS_MAP={
-  creative:[
-    {t:'统一诊断口径：锁定渠道、素材批次、时间窗',d:'确认CTR/互动率统计口径，排除平台算法波动干扰因素。'},
-    {t:'素材场景×用户需求匹配度分析',d:'这批素材切的是娱乐还是需求场景？是否对应目标人群真实购买动机？'},
-    {t:'Hook吸引力+利益点清晰度+CTA准确性评测',d:'钩子是否够吸引？利益点是否前置？CTA行动按钮文案是否与场景一致？'},
-    {t:'来源人群×平台核心用户画像对比',d:'这批素材吸引来的人群是否符合平台主流用户画像？低价值/低意图占比多少？'},
-    {t:'创意优化方向+A/B验证方案',d:'素材迭代优先级：场景切换/利益点前置/CTA文案改版，建议小流量A/B验证。'},
-  ],
-  funnel:[
-    {t:'PSM+DID归因：找到真正高CAC的渠道',d:'剔除自然流量混淆，找真正高CAC渠道，评估各渠道真实增量。'},
-    {t:'该渠道投放策略×用户需求场景分析',d:'投放满足的是什么场景下的用户需求？利益点和行动按钮是否一致？'},
-    {t:'来源用户画像×平台核心用户对比',d:'来的这批用户是否符合平台核心用户画像？差在哪里？价值高不高？'},
-    {t:'旅程卡点定位：用户在哪个节点流失',d:'追踪流失节点：落地页/详情页/加购/支付，定位最大卡点并推测根因。'},
-    {t:'自动化触达方案：卡点节点的分层干预',d:'T+1文案唤醒 / T+3优惠券（价格敏感）/ T+7积分权益。'},
-  ],
-  retention:[
-    {t:'复购率低的商品类目×用户群体定位',d:'哪些商品复购率最低？主要集中在哪类用户（新客/老客/高LTV/低LTV）？'},
-    {t:'追溯来源渠道+历史LTV+偏好分析',d:'这批低复购用户来自哪个渠道？历史LTV如何？历史购买偏好是什么？'},
-    {t:'价格敏感度判断+交叉售卖可行性',d:'是价格敏感型用户吗？能否配合券和权益做交叉售卖？响应率预测。'},
-    {t:'协同过滤推荐方案',d:'基于历史购买行为，生成相邻品类推荐清单，结合积分降低首次交叉购买门槛。'},
-    {t:'按用户价值分层的触达策略',d:'高潜用户→专属权益；价格敏感→满减券；沉默用户→场景化唤醒push。'},
-  ],
-  growth:[
-    {t:'业务阶段判断：0-1/1-10/规模化',d:'判断当前是销售/营销/产品驱动增长？基建和品牌效力现状如何？'},
-    {t:'PMF信号诊断：是否找到核心用户价值满足点',d:'是否跑通PMF？用户真正在乎的核心价值是什么？产品是否准确对齐？'},
-    {t:'定向用研问卷设计',d:'为「下单用户」和「流失用户」分别设计定向问卷素材。'},
-    {t:'问卷回收数据分析+增长假设验证',d:'回收后分析反馈，验证增长假设：核心价值主张是否被认可？阻力在哪？'},
-    {t:'阶段性增长策略推演',d:'收敛核心用户画像，集中资源打透一类人群，输出30日可验证行动计划。'},
-  ],
-  custom:[
-    {t:'意图澄清&口径统一',d:'解析问题并以多Agent协作方式拆解，统一KPI口径。'},
-    {t:'检索历史上下文与数据',d:'查询历史用研结论、投放数据与业务背景。'},
-    {t:'工具编排&子任务路由',d:'为不同子问题匹配合适分析模块。'},
-    {t:'多路径交叉验证',d:'对关键结论做交叉校验，避免单一路径幻觉。'},
-    {t:'聚合结论&决策建议',d:'汇总为可行动、可量化、可追溯的决策建议。'},
-  ],
-};
-
-const REPORTS={
-  creative:{cards:[
-    {title:'素材场景错配诊断',tag:'CREATIVE',sum:'核心问题：素材切的是娱乐/猎奇场景，吸引来的人群购买意图低，与平台主流用户需求错配。',buls:['Hook以娱乐属性为主，吸引来的用户无明确购买意图，CTR虚高但转化极低。','利益点表达不够前置，用户需要看完才能感知到价值，中途流失率高。','CTA按钮文案过于通用，缺乏场景化行动驱动力。']},
-    {title:'来源人群画像错配',tag:'AUDIENCE',sum:'该素材吸引的人群中约40%与平台核心用户画像不符，是低意图、低价值的无效流量。',buls:['低价值流量主要来自内容消费场景，而非商品需求场景。','这部分用户详情页跳出率高出均值38%，加购率不足均值的1/3。','建议：调整定向策略，屏蔽纯娱乐兴趣标签，优先覆盖有购买历史的人群。'],bars:[{h:85,l:'娱乐场景'},{h:40,l:'需求场景'},{h:30,l:'加购意图'},{h:22,l:'转化率'}]},
-    {title:'Hook & CTA 优化方向',tag:'COPY',sum:'建议将素材从「娱乐钩子」切向「具体使用场景+核心痛点」，利益点前置，CTA场景化。',buls:['Hook改为：「XXX场景下，你是不是也遇到了这个问题？」','利益点（价格/效果/信任）需在前2秒出现，而非结尾。','CTA改为场景化：「立即解决XXX问题」或「现在领取XXX优惠」。']},
-    {title:'A/B验证优先级',tag:'ACTION',sum:'建议启动3组A/B实验，分阶段验证素材优化方向，以CTR和加购率为核心指标。',buls:['优先验证：场景切换（娱乐→需求场景）对CTR和转化率的影响。','次优先：利益点前置 vs 后置，对中段留存率的影响。','第三：CTA文案场景化改版，对加购率的影响。'],scores:['当前Hook吸引力≈4/10','利益点清晰度≈5/10','CTA场景匹配≈3/10']},
-  ]},
-  funnel:{cards:[
-    {title:'渠道真实CAC归因',tag:'CAC',sum:'PSM+DID归因显示：A渠道CAC约为均值1.6倍，自然流量混淆严重，真实增量被高估约30%。',buls:['剔除品牌词搜索自然流量后，A渠道真实CAC大幅上升。','建议切换至增量归因口径，重新评估A渠道的预算分配优先级。','对比B/C渠道增量ROI，考虑预算向高效渠道转移。']},
-    {title:'来源用户与平台画像对比',tag:'AUDIENCE',sum:'A渠道引入的用户中，约35%不符合平台核心用户画像，属于低意图或低价值流量。',buls:['不符画像用户特征：低客单、低频、对主营品类无历史浏览记录。','这部分用户在详情页跳出率高出均值42%，下单率不足均值的20%。','建议：A渠道定向策略收窄，优先覆盖符合核心画像的人群。'],bars:[{h:65,l:'画像匹配'},{h:35,l:'下单转化'},{h:50,l:'7日留存'},{h:25,l:'复购率'}]},
-    {title:'用户旅程卡点定位',tag:'JOURNEY',sum:'主要流失发生在「落地页→详情页」（流失38%）和「加购→支付」（流失31%）两个节点。',buls:['落地页→详情页：信息不连续，用户预期与实际商品不符，信任感未建立。','加购→支付：支付页缺少紧迫感和信任背书，价格敏感用户犹豫期长。','优先优化这两个节点，预计可提升整体转化率15-20%。']},
-    {title:'自动化触达干预方案',tag:'OPS',sum:'在关键流失节点设计3层触达策略，预计可挽回约12-18%的流失用户。',buls:['T+1 push：场景化内容唤醒意图（针对详情页跳出用户）。','T+3 短信：限时优惠券刺激（针对加购未支付的价格敏感用户）。','T+7 小程序消息：积分兑换权益（针对低频激活用户）。'],scores:['渠道效率评分≈5.5/10','人群画像匹配≈6/10','触达挽回潜力≈中高']},
-  ]},
-  retention:{cards:[
-    {title:'低复购商品×用户群体定位',tag:'SEGMENT',sum:'复购率低主要集中在「标品/耗材类」商品，以及来自信息流渠道的新客群体。',buls:['标品类30日复购率仅为均值60%，主因是竞品价格更优、替换成本低。','信息流新客30日复购率约8%，远低于搜索新客的22%。','建议对标品类和信息流新客优先设计差异化留存策略。']},
-    {title:'历史LTV+偏好+价格敏感度',tag:'LTV',sum:'低复购用户中约30%属于价格敏感型，对折扣券响应率约35%，有被激活的潜力。',buls:['偏好以日用品/实用品为主，协同过滤可覆盖相邻品类（如个护→清洁）。','高LTV用户（top 20%）复购驱动力是「信任+便利」，而非价格。','建议分层设计：价格敏感型→券；高LTV型→专属权益+优先配送。'],bars:[{h:30,l:'复购率'},{h:55,l:'券响应'},{h:48,l:'推荐点击'},{h:62,l:'LTV潜力'}]},
-    {title:'协同过滤推荐方案',tag:'REC',sum:'基于历史购买行为，生成个性化推荐清单，覆盖相邻品类，重点降低交叉购买门槛。',buls:['优先推荐：历史品类的耗材/配件（需求确定性高，复购周期可预测）。','次优先：协同过滤关联品类（「买了A的人还买了B」）。','首次交叉购买配合小额积分奖励，降低决策摩擦。']},
-    {title:'分层触达权益策略',tag:'OPS',sum:'按用户价值分3层设计触达和权益组合，预计提升整体复购率8-12%。',buls:['高潜用户（LTV top30%）：专属会员权益+新品优先体验。','价格敏感用户：满减券+限时折扣（有效期48h，制造紧迫感）。','30日沉默用户：场景化push+小额积分奖励（低成本唤醒）。'],scores:['复购提升潜力≈中高','券ROI预估≈1.8-2.2x','触达时机敏感度≈高']},
-  ]},
-  growth:{cards:[
-    {title:'业务阶段诊断',tag:'STAGE',sum:'初步判断处于1→10阶段：战略摇摆，PMF信号弱，品牌效力不足，增长主要靠渠道投放驱动。',buls:['0-1特征：基建差，没有品牌效力，靠销售/投放硬怼增长，边际成本持续上升。','1-10卡点：没有找到核心用户价值满足点，人群宽泛，留存不稳，无法形成口碑增长。','优先任务：找到核心用户画像+最高价值满足点，收敛策略，再谈放量。']},
-    {title:'PMF信号诊断',tag:'PMF',sum:'基于现有数据，PMF在「效率+信任」维度有弱信号，但价格仍是最大摩擦点，核心价值主张不够聚焦。',buls:['高留存用户共同特征：对「省时/效率」和「可信度/安全感」满意度高。','低留存/流失用户主要原因：价格感知差、竞品替代容易、找不到产品独特价值。','建议：强化效率和信任的产品表达，降低价格对比摩擦。'],bars:[{h:72,l:'效率满意'},{h:65,l:'信任满意'},{h:38,l:'价格满意'},{h:45,l:'推荐意愿'}]},
-    {title:'定向用研问卷设计',tag:'QUAL',sum:'建议发起2类定向用研：①下单用户「价值满足度」问卷；②流失用户「离开原因」问卷，各200份，7日回收。',buls:['下单用户问卷重点：最核心决策因素、最大惊喜点、最想改进的一件事。','流失用户问卷重点：离开的主要原因、选择竞品的核心理由、还缺什么没满足。','问卷设计原则：单次不超过5题，核心是找「why」而非「what」。']},
-    {title:'阶段性增长策略推演',tag:'GROWTH',sum:'核心策略：从「渠道驱动」切向「用户价值驱动」，收敛核心人群后集中资源打透，再谈规模化。',buls:['30天目标：通过用研找到NPS>50的核心用户群，优先服务好这部分人。','策略调整：收窄人群定向，提升渠道画像匹配度，降低无效CAC。','验证节点：30日后看核心人群留存率、复购率和NPS变化，决定是否放量。'],scores:['PMF信号强度≈弱-中','增长策略清晰度≈待收敛','用研优先级≈极高']},
-  ]},
-  custom:{cards:[
-    {title:'用研洞察·动机×阻力',tag:'INSIGHT',sum:'核心痛点集中在效率/心智安全感/价格敏感度三类，不同细分人群主导动机差异明显。',buls:['高价值人群对时间成本和决策不可逆风险高度敏感。','当前信息架构对关键顾虑回应不够前置，增加了决策摩擦。']},
-    {title:'数据诊断·渠道漏斗',tag:'DATA',sum:'点击→加购和下单→支付两环节存在明显坍塌，是转化损失的主要来源。',buls:['中段到达→加购流失偏高，价值感与信任感未充分建立。','末端支付页权益展示存在优化空间，可用A/B验证。'],bars:[{h:80,l:'曝光→点击'},{h:68,l:'点击→到达'},{h:45,l:'到达→加购'},{h:52,l:'加购→支付'}]},
-    {title:'旅程卡点·触达策略',tag:'JOURNEY',sum:'「首次到达详情页」与「首次搜索品牌名」是两个高敏感度拐点。',buls:['落地页→详情页信息不连续是主要流失原因。','复购触达建议：按生命周期分层推送push/短信/积分权益。']},
-    {title:'决策建议·可验证方案',tag:'DECISION',sum:'建议A/B实验将创意/页面/权益方案拆开验证，优先在GMV影响最大的卡点小步快跑。',buls:['详情页首屏改版与结算页权益重排可先行验证。','本轮结论沉淀为指标口径+模板+Bad Case。'],scores:['洞察解释力≈8.5/10','可执行度≈8.0/10','风险可控≈7.5/10']},
-  ]},
-};
-
-function run(type,text){
-  runId++;
-  const rid=runId;
-  const cfg=TYPES[type]||TYPES.custom;
-  const q=(text||'').trim()||'请结合用研、数据归因与用户旅程给出端到端决策建议。';
-  document.getElementById('runStatus').textContent='RUNNING · #'+rid;
-  document.getElementById('sbMode').textContent=cfg.mode;
-  document.getElementById('modeLabel').textContent=cfg.mode;
-  logEl.innerHTML=''; stepsEl.innerHTML=''; resetTools(); clearPipe();
-  document.getElementById('ipMain').textContent='识别中…';
-  document.getElementById('ipMeta').textContent='正在解析 KPI / 渠道 / 人群 / 约束';
-  document.getElementById('rflArea').innerHTML='<div class="rfl-t"><span class="rfl-dot"></span>等待执行…</div><div>将在执行完成后进行自我校验。</div>';
-  document.getElementById('reportArea').innerHTML='<div class="rg"><div class="rc"><div class="rc-top"><div class="rc-title">生成中…</div><span class="rc-tag">RUNNING</span></div><div class="rc-sum">Agent 正在并行调用多模块，完成后在此汇总报告。</div></div></div>';
-  addLog('plan','收到问题 → 「'+q.slice(0,26)+(q.length>26?'…':'')+'」');
-  sched(()=>{setPipe(1);document.getElementById('ipMain').textContent='识别到：「'+cfg.label+'」';document.getElementById('ipMeta').textContent='KPI：'+cfg.kpi+' · 模式：'+cfg.mode;addLog('plan','意图识别完成 → '+cfg.label);},300,rid);
-  sched(()=>{
-    setPipe(2);
-    const steps=STEPS_MAP[type]||STEPS_MAP.custom;
-    renderSteps(steps);
-    addLog('plan','任务拆解为 '+steps.length+' 个子步骤');
-    steps.forEach((st,i)=>{sched(()=>{setStep(i,'current');if(i>0)setStep(i-1,'done');addLog('plan','Step '+(i+1)+'：'+st.t);},i*400,rid);});
-    sched(()=>setStep(steps.length-1,'done'),steps.length*400,rid);
-  },700,rid);
-  const toolBase=700+(STEPS_MAP[type]||STEPS_MAP.custom).length*400+300;
-  sched(()=>{
-    setPipe(3);
-    addLog('tool','开始调度工具链…');
-    cfg.tools.forEach((tid,i)=>{
-      sched(()=>{setTool(tid,'active');addLog('tool','调用「'+(TN[tid]||tid)+'」…');},i*340,rid);
-      sched(()=>{setTool(tid,'done');addLog('tool','「'+(TN[tid]||tid)+'」完成。');},i*340+260,rid);
-    });
-    sched(()=>{cfg.tools.forEach(tid=>{const l=OPS.find(x=>x.id===tid);if(l&&l.status!=='forbidden')l.status='used';});renderOps();},cfg.tools.length*340+100,rid);
-  },toolBase,rid);
-  const reflBase=toolBase+cfg.tools.length*340+380;
-  sched(()=>{
-    setPipe(4);
-    document.getElementById('rflArea').innerHTML='<div class="rfl-t"><span class="rfl-dot"></span>本轮推理自检结果</div><div>· <strong>口径对齐</strong>：已统一KPI/时间窗/归因口径，排除自然流量混淆。<br>· <strong>证据充分性</strong>：渠道归因+用研+旅程数据三方交叉验证通过。<br>· <strong>风险提示</strong>：预算调整与归因口径更改建议小流量实验验证后再放大。</div>';
-    addLog('refl','自我校验完成，当前结论在给定数据前提下可信度较高。');
-  },reflBase,rid);
-  sched(()=>{
-    const rpt=REPORTS[type]||REPORTS.custom;
-    const rg=document.createElement('div'); rg.className='rg';
-    rpt.cards.forEach(card=>{
-      const c=document.createElement('div'); c.className='rc';
-      let h=`<div class="rc-top"><div class="rc-title">${card.title}</div><span class="rc-tag">${card.tag}</span></div><div class="rc-sum">${card.sum}</div>`;
-      if(card.buls) h+='<ul class="rc-bul">'+card.buls.map(b=>`<li>${b}</li>`).join('')+'</ul>';
-      if(card.bars) h+='<div class="mbars">'+card.bars.map(b=>`<div class="mb" style="height:${b.h}%"><div class="mb-l">${b.l}</div></div>`).join('')+'</div>';
-      if(card.scores) h+='<div class="sc-row">'+card.scores.map(s2=>`<span class="scp">${s2}</span>`).join('')+'</div>';
-      c.innerHTML=h; rg.appendChild(c);
-    });
-    document.getElementById('reportArea').innerHTML=''; document.getElementById('reportArea').appendChild(rg);
-    addLog('plan','报告生成完成。');
-    document.getElementById('runStatus').textContent='DONE · #'+rid;
-    // scroll to NPS
-    setTimeout(()=>document.getElementById('npsSection').scrollIntoView({behavior:'smooth',block:'start'}),600);
-  },reflBase+320,rid);
+function computeRunMetrics(type,text){
+  const q=(text||'');
+  const len=q.length;
+  const scenario=(type in TYPES)?type:'custom';
+  const toolCount=(TYPES[scenario]||TYPES.custom).tools.length;
+  const clarity=Math.min(96, Math.max(58, Math.round(60 + len/8)));
+  const confidence=Math.min(93, Math.max(61, clarity - (scenario==='custom'?8:0) + (state.selectedSlot===scenario?4:0)));
+  const risk=Math.max(7, Math.min(38, 34 - Math.floor(confidence/4)));
+  return {clarity,confidence,risk,toolCount};
 }
 
-document.getElementById('runBtn').addEventListener('click',()=>{const q=document.getElementById('q').value.trim();run('custom',q);});
-document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();document.getElementById('runBtn').click();}});
+function renderReport(type){
+  const rpt=REPORTS[type]||REPORTS.custom;
+  const rg=document.createElement('div'); rg.className='rg';
+  rpt.cards.forEach(card=>{
+    const c=document.createElement('div'); c.className='rc';
+    let h=`<div class="rc-top"><div class="rc-title">${escapeHtml(card.title)}</div><span class="rc-tag">${escapeHtml(card.tag)}</span></div><div class="rc-sum">${escapeHtml(card.sum)}</div>`;
+    if(card.buls) h+='<ul class="rc-bul">'+card.buls.map(b=>`<li>${escapeHtml(b)}</li>`).join('')+'</ul>';
+    if(card.bars) h+='<div class="mbars">'+card.bars.map(b=>`<div class="mb" style="height:${b.h}%"><div class="mb-l">${escapeHtml(b.l)}</div></div>`).join('')+'</div>';
+    if(card.scores) h+='<div class="sc-row">'+card.scores.map(s=>`<span class="scp">${escapeHtml(s)}</span>`).join('')+'</div>';
+    c.innerHTML=h; rg.appendChild(c);
+  });
+  $('reportArea').innerHTML=''; $('reportArea').appendChild(rg);
+}
+
+function updateReflect(metrics,cfg){
+  $('rflArea').innerHTML=`<div class="rfl-t"><span class="rfl-dot"></span>本轮推理自检结果</div><div>· <strong>口径对齐</strong>：已统一KPI/时间窗/归因口径。<br>· <strong>证据充分性</strong>：当前方案调度 ${metrics.toolCount} 个模块，结论置信度约 <strong>${metrics.confidence}%</strong>。<br>· <strong>风险提示</strong>：当前风险敞口约 <strong>${metrics.risk}%</strong>，建议在 <strong>${cfg.mode}</strong> 模式下先做小流量验证再放大。</div>`;
+}
+
+function run(type,text){
+  state.runId += 1;
+  const rid=state.runId;
+  const q=(text||'').trim()||'请结合用研、数据归因与用户旅程给出端到端决策建议。';
+  const resolvedType=type==='custom'?detectType(q):type;
+  state.currentType=resolvedType;
+  const cfg=TYPES[resolvedType]||TYPES.custom;
+  const steps=STEPS_MAP[resolvedType]||STEPS_MAP.custom;
+  const metrics=computeRunMetrics(resolvedType,q);
+  state.lastRun={type:resolvedType,text:q,metrics};
+  $('runStatus').textContent='RUNNING · #'+rid;
+  $('sbMode').textContent=cfg.mode;
+  $('modeLabel').textContent=cfg.mode;
+  logEl.innerHTML=''; stepsEl.innerHTML=''; resetTools(); clearPipe();
+  $('ipMain').textContent='识别中…';
+  $('ipMeta').textContent='正在解析 KPI / 渠道 / 人群 / 约束';
+  $('rflArea').innerHTML='<div class="rfl-t"><span class="rfl-dot"></span>等待执行…</div><div>将在执行完成后进行自我校验。</div>';
+  $('reportArea').innerHTML='<div class="rg"><div class="rc"><div class="rc-top"><div class="rc-title">生成中…</div><span class="rc-tag">RUNNING</span></div><div class="rc-sum">Agent 正在并行调用多模块，完成后在此汇总报告。</div></div></div>';
+  addLog('plan','收到问题 → '+q.slice(0,40)+(q.length>40?'…':''));
+  addLog('plan','自动归类为「'+cfg.label+'」');
+  sched(()=>{setPipe(1);$('ipMain').textContent='识别到：「'+cfg.label+'」';$('ipMeta').textContent='KPI：'+cfg.kpi+' · 模式：'+cfg.mode;addLog('plan','意图识别完成 → '+cfg.label);},280,rid);
+  sched(()=>{setPipe(2);renderSteps(steps);addLog('plan','任务拆解为 '+steps.length+' 个子步骤');steps.forEach((st,i)=>{sched(()=>{setStep(i,'current');if(i>0)setStep(i-1,'done');addLog('plan','Step '+(i+1)+'：'+st.t);},i*360,rid);});sched(()=>setStep(steps.length-1,'done'),steps.length*360,rid);},640,rid);
+  const toolBase=640+steps.length*360+260;
+  sched(()=>{setPipe(3);addLog('tool','开始调度工具链…');cfg.tools.forEach((tid,i)=>{sched(()=>{setTool(tid,'active');addLog('tool','调用「'+(TN[tid]||tid)+'」…');},i*300,rid);sched(()=>{setTool(tid,'done');addLog('tool','「'+(TN[tid]||tid)+'」完成。');},i*300+220,rid);});sched(()=>{cfg.tools.forEach(tid=>{const l=OPS.find(x=>x.id===tid);if(l&&l.status!=='forbidden')l.status='used';});renderOps();},cfg.tools.length*300+80,rid);},toolBase,rid);
+  const reflBase=toolBase+cfg.tools.length*300+320;
+  sched(()=>{setPipe(4);updateReflect(metrics,cfg);addLog('refl','自我校验完成，当前结论置信度 '+metrics.confidence+'%。');},reflBase,rid);
+  sched(()=>{renderReport(resolvedType);addLog('plan','报告生成完成。');$('runStatus').textContent='DONE · #'+rid;const nps=document.getElementById('npsSection');if(nps) nps.scrollIntoView({behavior:'smooth',block:'start'});},reflBase+260,rid);
+}
+
+$('runBtn').addEventListener('click',()=>{const q=$('q').value.trim();run(detectType(q)||'custom',q);});
+$('q').addEventListener('input',e=>{const t=detectType(e.target.value); state.currentType=t; $('ipMeta').textContent='当前建议路由：'+(TYPES[t]||TYPES.custom).label+' · 可直接运行';});
+$('q').addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();$('runBtn').click();}});
 document.querySelectorAll('.ni').forEach(item=>{item.addEventListener('click',()=>{document.querySelectorAll('.ni').forEach(n=>n.classList.remove('act'));item.classList.add('act');});});
 
-renderOps();
-
-// ── NPS MODULE ──
-(function(){
-  const scoreWrap=document.getElementById('npsScores');
-  let npsScore=null;
+function initNps(){
+  const scoreWrap=$('npsScores');
+  scoreWrap.innerHTML='';
   for(let i=0;i<=10;i++){
-    const btn=document.createElement('button'); btn.className='nps-btn'; btn.textContent=i;
+    const btn=document.createElement('button'); btn.className='nps-btn'; btn.type='button'; btn.textContent=i;
     btn.addEventListener('click',()=>{
-      npsScore=i;
+      state.nps.score=i;
       document.querySelectorAll('.nps-btn').forEach(b=>b.classList.remove('sel','sel-low','sel-mid'));
-      if(i<=6) btn.classList.add('sel','sel-low');
-      else if(i<=8) btn.classList.add('sel','sel-mid');
-      else btn.classList.add('sel');
-      document.getElementById('npsHint').textContent=i<=6?'😕 批评者 Detractor':i<=8?'😐 中立者 Passive':'😊 推荐者 Promoter';
+      if(i<=6) btn.classList.add('sel','sel-low'); else if(i<=8) btn.classList.add('sel','sel-mid'); else btn.classList.add('sel');
+      $('npsHint').textContent=i<=6?'😕 批评者 Detractor':i<=8?'😐 中立者 Passive':'😊 推荐者 Promoter';
     });
     scoreWrap.appendChild(btn);
   }
   document.querySelectorAll('.nps-stars').forEach(wrap=>{
-    let val=0;
+    const dim=wrap.dataset.dim;
+    wrap.innerHTML='';
     for(let i=1;i<=5;i++){
-      const s=document.createElement('span'); s.className='nps-star'; s.textContent='⭐'; s.dataset.v=i;
+      const s=document.createElement('span'); s.className='nps-star'; s.textContent='⭐';
       s.addEventListener('mouseenter',()=>wrap.querySelectorAll('.nps-star').forEach((x,idx)=>x.classList.toggle('lit',idx<i)));
-      s.addEventListener('mouseleave',()=>wrap.querySelectorAll('.nps-star').forEach((x,idx)=>x.classList.toggle('lit',idx<val)));
-      s.addEventListener('click',()=>{val=i;wrap.querySelectorAll('.nps-star').forEach((x,idx)=>x.classList.toggle('lit',idx<i));});
+      s.addEventListener('mouseleave',()=>wrap.querySelectorAll('.nps-star').forEach((x,idx)=>x.classList.toggle('lit',idx<state.nps.dims[dim])));
+      s.addEventListener('click',()=>{state.nps.dims[dim]=i;wrap.querySelectorAll('.nps-star').forEach((x,idx)=>x.classList.toggle('lit',idx<i));});
       wrap.appendChild(s);
     }
   });
-  document.getElementById('npsSubmit').addEventListener('click',()=>{
-    if(npsScore===null){alert('请先选择推荐度评分（0-10）');return;}
-    document.getElementById('npsSubmit').style.display='none';
-    document.getElementById('npsThanks').style.display='block';
+  $('npsSubmit').addEventListener('click',()=>{
+    if(state.nps.score===null){alert('请先选择推荐度评分（0-10）');return;}
+    state.nps.comment=$('npsComment').value.trim();
+    $('npsSubmit').style.display='none';
+    $('npsThanks').style.display='block';
+    addLog('refl','收到用户反馈：NPS '+state.nps.score+'，已进入下一轮优化参考。');
   });
-})();
+}
+
+function renderPostHocMetrics(){
+  const base=state.lastRun||{type:'custom',text:$('q').value||'',metrics:computeRunMetrics('custom',$('q').value||'')};
+  const m=base.metrics;
+  const byType={creative:{ctr:'2.34%',cvr:'8.1%',cpa:'¥38.6',roas:'2.1x',dev:'+12.3%'},funnel:{ctr:'2.88%',cvr:'6.4%',cpa:'¥42.1',roas:'1.9x',dev:'+16.8%'},retention:{ctr:'3.12%',cvr:'9.3%',cpa:'¥31.2',roas:'2.6x',dev:'+8.4%'},growth:{ctr:'2.51%',cvr:'7.8%',cpa:'¥35.4',roas:'2.3x',dev:'+10.6%'},custom:{ctr:'2.60%',cvr:'7.2%',cpa:'¥36.9',roas:'2.2x',dev:'+11.0%'}};
+  const cur=byType[base.type]||byType.custom;
+  const biz={mCTR:{v:cur.ctr,c:m.clarity>78?'good':'warn'},mCVR:{v:cur.cvr,c:m.confidence>78?'good':'warn'},mCPA:{v:cur.cpa,c:m.risk<18?'good':m.risk<28?'warn':'bad'},mROAS:{v:cur.roas,c:m.confidence>75?'good':'warn'},mDev:{v:cur.dev,c:m.risk<20?'good':'bad'}};
+  Object.entries(biz).forEach(([id,d])=>{const el=$(id);if(el){el.textContent=d.v;el.className='phe-metric-val '+d.c;}});
+  const toolBars=$('toolMetricBars');
+  toolBars.innerHTML='';
+  [{l:'调用成功率',v:Math.min(99,m.confidence+4),c:'green'},{l:'参数合规率',v:Math.min(97,m.clarity),c:'blue'},{l:'返回正确率',v:Math.min(98,Math.max(74,m.confidence-2)),c:m.risk<22?'blue':'amber'}].forEach(b=>{toolBars.innerHTML+=`<div class="phe-bar-row"><div class="phe-bar-label">${b.l}</div><div class="phe-bar-track"><div class="phe-bar-fill ${b.c}" style="width:${b.v}%"></div></div><div class="phe-bar-num">${b.v}%</div></div>`;});
+  const proc={mStep:{v:'5/5 完整',c:'good'},mRetry:{v:m.risk>24?'1 次':'0 次',c:m.risk>24?'warn':'good'},mHuman:{v:base.type==='custom'?'8%':'0%',c:base.type==='custom'?'warn':'good'},mLatency:{v:(1.2+m.toolCount*0.16).toFixed(1)+'s',c:'good'}};
+  Object.entries(proc).forEach(([id,d])=>{const el=$(id);if(el){el.textContent=d.v;el.className='phe-metric-val '+d.c;}});
+}
+
+function renderDiff(){
+  const g=$('diffGrid'); if(!g) return; g.innerHTML='';
+  const base=state.lastRun||{type:'custom'};
+  const map={
+    creative:[['意图理解偏差','渠道转化诊断','素材场景错配','高','red','「花费高」容易误触归因路径，需加入“互动差/素材/CTR”联合规则。'],['工具选择偏差','PSM+DID归因','Hook/CTA评测','中','amber','创意层工具应前置，归因工具用于二次验证。']],
+    funnel:[['先验假设偏差','素材问题','旅程卡点问题','中','amber','有时真实问题在落地页和支付页，不在投放入口。'],['参数配置偏差','时间窗=7日','时间窗=14日','低','green','决策周期偏长的渠道，7日窗会低估真实CVR。']],
+    retention:[['人群理解偏差','全量新客统一处理','价格敏感/高潜分层','高','red','复购问题高度依赖分层，不宜只看总均值。'],['工具顺序偏差','先做权益发券','先识别LTV与偏好','中','amber','没做分层前直接发券容易稀释ROI。']],
+    growth:[['先验预期偏差','渠道放量可解','价值主张待收敛','高','red','交易规模疲软往往不是单纯买量不足，而是PMF信号弱。'],['证据结构偏差','只看业务指标','需补充定性用研','中','amber','需要行为数据和问卷证据共同判断。']],
+    custom:[['意图理解偏差','规则直接命中','需人工补充语义','中','amber','自由问题表达更散，需要更多语义约束。'],['数据口径偏差','默认平台总口径','应按付费/自然拆分','中','amber','混用口径会抬高或压低诊断结论。']]
+  };
+  (map[base.type]||map.custom).concat([['外部环境波动','正常竞争态势','竞品大促期间','中','amber','若外部促销未纳入，会放大Agent误判。']]).forEach(d=>{
+    const col=d[4]==='red'?'#dc2626':d[4]==='amber'?'#d97706':'#16a34a';
+    const vc=d[4]==='red'?'bad':d[4]==='amber'?'warn':'good';
+    g.innerHTML+=`<div class="phe-card"><div class="phe-card-hd"><div class="phe-card-title">${d[0]}</div><span class="phe-card-tag" style="color:${col}">偏差${d[3]}</span></div><div class="phe-metric"><span>先验预期</span><span class="phe-metric-val" style="color:#64748b">${d[1]}</span></div><div class="phe-metric"><span>后验实际</span><span class="phe-metric-val ${vc}">${d[2]}</span></div><div style="font-size:9px;color:#64748b;line-height:1.5;margin-top:6px">${d[5]}</div></div>`;
+  });
+}
+
+function renderBadcase(){
+  const list=$('badcaseList'); if(!list) return; list.innerHTML='';
+  const base=state.lastRun||{type:'custom'};
+  const items={
+    creative:[['意图识别路径错误','red','规则缺失','「获客成本高」和「互动差」同时出现时，应优先走创意诊断，而不是直接走归因。','INTENT·RULE'],['工具调用顺序错误','amber','顺序不优','Hook/CTA评测应该在归因前执行，用来缩小问题空间。','TOOL·ORDER']],
+    funnel:[['旅程证据不足','amber','数据缺口','如果没有节点级漏斗证据，归因结论会过度依赖经验。','DATA·JOURNEY'],['触达方案过早输出','amber','流程跳步','未完成流失节点定位前，不应直接输出优惠券策略。','FLOW·ORDER']],
+    retention:[['分层粒度不足','red','用户建模偏粗','高潜与价格敏感用户被混合处理，策略价值被稀释。','SEGMENT·MODEL'],['推荐逻辑缺解释','amber','可解释性弱','协同过滤推荐没有展示“为什么推这个”。','REC·EXPLAIN']],
+    growth:[['把增长问题当投放问题','red','问题定义偏差','平台疲软未必是买量问题，常常是价值主张不清。','GROWTH·PMF'],['用研缺回流机制','amber','闭环不完整','收了问卷但没把结果回写到路由和提示词。','RESEARCH·LOOP']],
+    custom:[['自由文本解析脆弱','amber','语义映射不足','没有槽位结构时，系统更容易错路由。','INTENT·PARSE'],['口径校验未前置','amber','校验时机偏后','应该在执行前就约束时间窗、渠道范围、指标范围。','VALIDATE·PRE']]
+  };
+  (items[base.type]||items.custom).concat([['外部环境未纳入','red','数据质量问题','未抓到竞品活动、节日等外部波动时，分析会系统性偏差。','DATA·MISSING']]).forEach(c=>{
+    list.innerHTML+=`<div class="phe-list-item"><div class="phe-list-dot ${c[1]}"></div><div class="phe-list-body"><div class="phe-list-title">${c[0]}</div><div class="phe-list-desc"><strong>根因：${c[2]}</strong> · ${c[3]}</div><span class="phe-list-tag">${c[4]}</span></div></div>`;
+  });
+}
+
+function renderStrategy(){
+  const area=$('strategyArea'); if(!area) return; area.innerHTML='';
+  const base=state.lastRun||{type:'custom'};
+  const linesByType={
+    creative:[['// 新增联合意图规则','IF 含「花费高」AND(「互动差」OR「CTR低」OR「素材」) → creative_diagnosis','// 原规则: 单独「花费高」→ funnel归因'],['creative_diagnosis:','  step1: hook_cta_eval','  step2: audience_match','  step3: attribution_verify']],
+    funnel:[['before_funnel_analysis:','  assert funnel_stage_data == available','  assert attribution_window >= decision_cycle'],['funnel_strategy:','  step1: psm_did','  step2: journey_dropoff','  step3: trigger_design']],
+    retention:[['retention_segmentation:','  step1: LTV_cluster','  step2: price_sensitivity','  step3: recommendation_fit'],['coupon_guardrail:','  alert if coupon_roi < 1.2','  require segment_label before dispatch']],
+    growth:[['growth_diagnosis:','  step1: stage_detect','  step2: pmf_signal_check','  step3: research_plan'],['validate_growth:','  assert business_metric and research_evidence both_present','  check value_prop_consistency']],
+    custom:[['before_analysis:','  require metric_scope','  require time_window','  require channel_scope'],['router_patch:','  fallback -> semantic_classifier','  if confidence < 0.7 then ask structured hints']]
+  };
+  (linesByType[base.type]||linesByType.custom).concat([[ 'risk_threshold:', 'flag if competitor_promo_detected==true', 'alert if baseline_deviation > 1.25x' ]]).forEach((p,idx)=>{
+    const title=['Skill Prompt 补丁','工具调用规则修正','风控阈值调整'][idx]||('优化补丁 '+(idx+1));
+    const code=p.map(l=>l.startsWith('//')?`<span class="phe-patch-cmt">${l}</span>`:`<span class="phe-patch-line">${l}</span>`).join('<br>');
+    area.innerHTML+=`<div class="phe-patch"><div class="phe-patch-hd">${title}</div>${code}</div>`;
+  });
+  area.innerHTML+=`<div class="phe-list-item" style="margin-top:6px"><div class="phe-list-dot amber"></div><div class="phe-list-body"><div class="phe-list-title">评测集补充</div><div class="phe-list-desc">建议把“错路由”“口径混用”“外部促销扰动”至少 3 类 case 纳入回归测试，保证下轮不会再犯同一类问题。</div></div></div>`;
+}
+
+function renderArchive(){
+  const area=$('archiveArea'); if(!area) return; area.innerHTML='';
+  const base=state.lastRun||{type:'custom'};
+  const now=new Date();
+  const ts=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+'T'+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+':'+String(now.getSeconds()).padStart(2,'0');
+  [{ver:'v1.3.0',time:ts,desc:'修复槽位加载、统一工具ID、补齐滚动锚点与动态后验分析。',status:'当前归档',i:'📦'},{ver:'v1.2.1',time:'2025-03-10T14:22:00',desc:'补充后验分析面板，但仍存在静态数据与错路由问题。',status:'历史版本',i:'🗄️'},{ver:'v1.2.0',time:'2025-03-05T09:15:00',desc:'首版先验/后验概念接入，未建立真正闭环。',status:'历史版本',i:'🗄️'}].forEach((v,idx)=>{
+    area.innerHTML+=`<div class="phe-archive" style="${idx>0?'opacity:.55;background:transparent':''}"><div class="phe-archive-icon">${v.i}</div><div class="phe-archive-body"><div class="phe-archive-title">${v.ver} · ${v.status}</div><div class="phe-list-desc" style="color:#475569">${v.desc}</div><div class="phe-archive-meta">归档时间：${v.time} · 场景：${base.type}</div></div></div>`;
+  });
+  area.innerHTML+=`<div style="margin-top:10px;font-size:10px;color:#94a3b8;font-family:'DM Mono',monospace">当前版本仍为前端原型：日志、指标和优化策略是规则驱动，不是后端真实数据回流。</div>`;
+}
+
+function initPostHoc(){
+  document.querySelectorAll('.phe-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{document.querySelectorAll('.phe-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.phe-content').forEach(c=>c.classList.remove('show'));tab.classList.add('active');const t=document.getElementById('phe-'+tab.dataset.tab);if(t) t.classList.add('show');});
+  });
+  const pheBtn=$('pheRunBtn');
+  if(pheBtn) pheBtn.addEventListener('click',()=>{pheBtn.textContent='分析中…'; pheBtn.disabled=true; setTimeout(()=>{renderPostHocMetrics();renderDiff();renderBadcase();renderStrategy();renderArchive();pheBtn.textContent='▶ 重新分析';pheBtn.disabled=false;},520);});
+}
+
+renderSlots();
+renderOps();
+initNps();
+initPostHoc();
 
 })();
 </script>
